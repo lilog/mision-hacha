@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10233f">
+<title>Misión Hacha 🪓</title>
+<style>
+:root{
+  --ink:#10233f; --blue:#2867d6; --cream:#fff9ef; --red:#e23f55;
+  --paper:#fffdf8; --shadow:0 20px 60px rgba(16,35,63,.18);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--ink); background:
+  radial-gradient(circle at 20% 0%,#dff4ff 0,transparent 34%),
+  radial-gradient(circle at 100% 20%,#ffe0e9 0,transparent 30%),
+  var(--cream);
+}
+button{font:inherit}
+.screen{min-height:100svh;display:none;align-items:center;justify-content:center;padding:24px}
+.screen.active{display:flex}
+.card{
+  width:min(1100px,100%); background:rgba(255,253,248,.94); border:3px solid var(--ink);
+  border-radius:30px; box-shadow:var(--shadow); overflow:hidden;
+}
+.hero{position:relative;min-height:78svh;background:#101a28}
+.hero img{width:100%;height:100%;min-height:78svh;object-fit:cover;display:block;opacity:.86}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,20,38,.05),rgba(8,20,38,.7))}
+.hero-copy{position:absolute;z-index:2;left:clamp(22px,5vw,70px);right:clamp(22px,5vw,70px);bottom:clamp(28px,6vw,70px);color:white}
+.kicker{font-weight:900;letter-spacing:.18em;text-transform:uppercase;font-size:.78rem}
+h1{font-size:clamp(2.8rem,8vw,7rem);line-height:.85;margin:.18em 0 .2em;letter-spacing:-.055em}
+.hero p{font-size:clamp(1rem,2vw,1.35rem);max-width:680px;margin:0 0 24px}
+.cta{
+  border:0;border-radius:999px;background:#fff;color:var(--ink);padding:15px 23px;font-weight:900;
+  cursor:pointer;box-shadow:0 8px 0 rgba(0,0,0,.16);transition:.15s transform,.15s box-shadow
+}
+.cta:hover{transform:translateY(-2px);box-shadow:0 10px 0 rgba(0,0,0,.16)}
+.cta:active{transform:translateY(4px);box-shadow:0 3px 0 rgba(0,0,0,.16)}
+.game-wrap{padding:clamp(18px,4vw,42px)}
+.topbar{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:18px}
+.topbar h2{font-size:clamp(1.6rem,4vw,2.7rem);margin:0}
+.score{font-weight:900;background:var(--ink);color:white;border-radius:999px;padding:9px 15px}
+.progress{height:12px;background:#e8e3d8;border:2px solid var(--ink);border-radius:999px;overflow:hidden;margin:0 0 20px}
+.progress > div{height:100%;width:0;background:linear-gradient(90deg,#e33,#f90,#fd3,#3a6,#2784d7,#7d49a8);transition:.3s}
+.instructions{margin:0 0 18px;max-width:760px}
+.images{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pane{position:relative;border:3px solid var(--ink);border-radius:20px;overflow:hidden;background:#ddd;touch-action:manipulation}
+.pane img{display:block;width:100%;height:auto}
+.hotspot{
+  position:absolute;border:0;background:transparent;border-radius:50%;cursor:pointer;padding:0;transform:translate(-50%,-50%);
+  min-width:34px;min-height:34px;
+}
+.hotspot.found{border:4px solid #2bb673;background:rgba(43,182,115,.12);box-shadow:0 0 0 4px rgba(255,255,255,.9)}
+.hotspot.found:after{content:"✓";position:absolute;right:-9px;top:-16px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#2bb673;color:white;font-weight:1000}
+.hotspot.hint{animation:pulse 1s ease-in-out 3}
+@keyframes pulse{50%{box-shadow:0 0 0 16px rgba(255,205,70,.45);background:rgba(255,205,70,.22)}}
+.controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:16px}
+.ghost{background:transparent;border:2px solid var(--ink);color:var(--ink);box-shadow:none}
+.toast{
+  position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;
+  background:var(--ink);color:white;padding:11px 16px;border-radius:999px;font-weight:800;transition:.2s;z-index:20
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.final{padding:clamp(30px,6vw,70px);text-align:center}
+.big-axe{font-size:clamp(4rem,12vw,8rem);display:inline-block;animation:wobble 1.2s ease-in-out infinite alternate}
+@keyframes wobble{to{transform:rotate(8deg) translateY(-4px)}}
+.final h2{font-size:clamp(2.5rem,7vw,5.5rem);line-height:.92;margin:.15em 0}
+.reward{
+  margin:28px auto 0;max-width:700px;border:3px solid var(--ink);border-radius:24px;padding:28px;
+  background:linear-gradient(135deg,#eef7ff,#fff,#ffe9ef);position:relative;overflow:hidden
+}
+.reward .rainbow{font-size:2rem}
+.reward strong{display:block;font-size:clamp(1.5rem,4vw,2.6rem);margin:8px 0}
+.small{font-size:.9rem;opacity:.72}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
+.confetti i{position:absolute;top:-20px;width:10px;height:18px;background:var(--c);animation:fall var(--d) linear forwards;transform:rotate(var(--r))}
+@keyframes fall{to{transform:translate(var(--x),110vh) rotate(720deg)}}
+.footer-note{margin-top:18px;font-size:.86rem;opacity:.7}
+@media(max-width:800px){
+  .screen{padding:10px}
+  .card{border-radius:22px}
+  .images{grid-template-columns:1fr}
+  .game-wrap{padding:17px}
+  .pane{border-radius:14px}
+}
+</style>
+</head>
+<body>
+
+<section id="start" class="screen active">
+  <main class="card hero">
+    <img src="assets/portada.jpg" alt="Collage deportivo de Lu">
+    <div class="hero-copy">
+      <div class="kicker">Expediente clasificado · Nivel: Hacha</div>
+      <h1>MISIÓN<br>HACHA 🪓</h1>
+      <p>Hay cinco diferencias escondidas. Dos de ellas tienen bastante que ver con tu apodo.</p>
+      <button class="cta" id="startBtn">Aceptar misión</button>
+    </div>
+  </main>
+</section>
+
+<section id="game" class="screen">
+  <main class="card game-wrap">
+    <div class="topbar">
+      <div>
+        <div class="kicker">Prueba 01</div>
+        <h2>Encontrá las 5 diferencias</h2>
+      </div>
+      <div class="score"><span id="score">0</span>/5 encontradas</div>
+    </div>
+    <div class="progress"><div id="bar"></div></div>
+    <p class="instructions">Podés tocar la diferencia en cualquiera de las dos imágenes. Hay <b>dos hachas distintas</b> escondidas entre las fotos. 👀</p>
+
+    <div class="images">
+      <div class="pane" data-side="a">
+        <img src="assets/diferencias-a.jpg" alt="Imagen A del juego">
+        <button class="hotspot" data-id="axe1" style="left:19.4%;top:72.8%;width:10%;height:16%" aria-label="Diferencia"></button>
+        <button class="hotspot" data-id="axe2" style="left:75.9%;top:35%;width:10%;height:18%" aria-label="Diferencia"></button>
+        <button class="hotspot" data-id="heart" style="left:91.9%;top:12.2%;width:10%;height:18%" aria-label="Diferencia"></button>
+        <button class="hotspot" data-id="crown" style="left:29.4%;top:13.5%;width:11%;height:18%" aria-label="Diferencia"></button>
+        <button class="hotspot" data-id="glasses" style="left:82.5%;top:69.5%;width:12%;height:18%" aria-label="Diferencia"></button>
+      </div>
+
+      <div class="pane" data-side="b">
+        <img src="assets/diferencias-b.jpg" alt="Imagen B del juego">
+        <button class="hotspot" data-id="axe1" style="left:19.4%;top:72.8%;width:10%;height:16%" aria-label="Diferencia"></button>
+        <button class="hotspot" data-id="axe2" style="left:75.9%;top:35%;width:10%;height:18%" aria-label="Diferencia"></button>
+        <button class="hotspot" data-id="heart" style="left:91.9%;top:12.2%;width:10%;height:18%" aria-label="Diferencia"></button>
+        <button class="hotspot" data-id="crown" style="left:29.4%;top:13.5%;width:11%;height:18%" aria-label="Diferencia"></button>
+        <button class="hotspot" data-id="glasses" style="left:82.5%;top:69.5%;width:12%;height:18%" aria-label="Diferencia"></button>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="cta ghost" id="hintBtn">Dame una pista</button>
+      <span id="hintsText" class="small">2 pistas disponibles</span>
+    </div>
+    <div class="footer-note">Tip: en móvil, girar el teléfono puede hacerlo un poquito más fácil.</div>
+  </main>
+</section>
+
+<section id="final" class="screen">
+  <main class="card final">
+    <div class="big-axe">🪓</div>
+    <div class="kicker">Misión completada</div>
+    <h2>Bien ahí,<br>Hacha.</h2>
+    <p>Encontraste todo. Así que corresponde liberar la recompensa.</p>
+    <div class="reward">
+      <div class="rainbow">🏳️‍🌈 💙</div>
+      <strong>Tarjeta regalo de Decathlon</strong>
+      <p>Para fútbol, bici, aventuras y cualquier otra cosa en la que te metas después.</p>
+      <p class="small">El código/PIN del regalo va aparte para que no quede publicado en GitHub.</p>
+    </div>
+    <button class="cta" style="margin-top:24px" id="replay">Jugar de nuevo</button>
+  </main>
+</section>
+
+<div id="toast" class="toast">Nope 👀</div>
+<div id="confetti" class="confetti"></div>
+
+<script>
+const start = document.getElementById('start');
+const game = document.getElementById('game');
+const final = document.getElementById('final');
+const scoreEl = document.getElementById('score');
+const bar = document.getElementById('bar');
+const toast = document.getElementById('toast');
+const hintsText = document.getElementById('hintsText');
+let found = new Set();
+let hints = 2;
+
+function show(section){
+  [start,game,final].forEach(x=>x.classList.remove('active'));
+  section.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.getElementById('startBtn').onclick=()=>show(game);
+
+function toastMsg(msg){
+  toast.textContent=msg; toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'),900);
+}
+function update(){
+  scoreEl.textContent=found.size;
+  bar.style.width=(found.size/5*100)+'%';
+  document.querySelectorAll('.hotspot').forEach(h=>{
+    h.classList.toggle('found',found.has(h.dataset.id));
+  });
+  if(found.size===5){
+    setTimeout(()=>{show(final); confetti();},500);
+  }
+}
+document.querySelectorAll('.hotspot').forEach(h=>{
+  h.addEventListener('click',(e)=>{
+    e.stopPropagation();
+    if(found.has(h.dataset.id)) return;
+    found.add(h.dataset.id);
+    toastMsg(found.size===5 ? '¡Las cinco! 🪓' : '¡Encontrada! ✓');
+    update();
+  });
+});
+document.querySelectorAll('.pane').forEach(p=>{
+  p.addEventListener('click',e=>{
+    if(e.target.classList.contains('hotspot')) return;
+    toastMsg('Nope 👀');
+  });
+});
+
+document.getElementById('hintBtn').onclick=()=>{
+  if(hints<=0){toastMsg('No quedan pistas 😈');return;}
+  const remaining=['axe1','axe2','heart','crown','glasses'].filter(x=>!found.has(x));
+  if(!remaining.length)return;
+  const id=remaining[Math.floor(Math.random()*remaining.length)];
+  document.querySelectorAll(`.hotspot[data-id="${id}"]`).forEach(x=>{
+    x.classList.add('hint'); setTimeout(()=>x.classList.remove('hint'),3100);
+  });
+  hints--;
+  hintsText.textContent=hints===1?'1 pista disponible':hints+' pistas disponibles';
+};
+
+document.getElementById('replay').onclick=()=>{
+  found=new Set(); hints=2; hintsText.textContent='2 pistas disponibles'; update(); show(game);
+};
+
+function confetti(){
+  const box=document.getElementById('confetti');
+  box.innerHTML='';
+  const colors=['#e33','#f90','#fd3','#3a6','#2784d7','#7d49a8'];
+  for(let i=0;i<90;i++){
+    const c=document.createElement('i');
+    c.style.left=Math.random()*100+'vw';
+    c.style.setProperty('--c',colors[i%colors.length]);
+    c.style.setProperty('--d',(2.2+Math.random()*2)+'s');
+    c.style.setProperty('--r',(Math.random()*360)+'deg');
+    c.style.setProperty('--x',((Math.random()-.5)*220)+'px');
+    c.style.animationDelay=(Math.random()*.6)+'s';
+    box.appendChild(c);
+  }
+  setTimeout(()=>box.innerHTML='',4800);
+}
+</script>
+</body>
+</html>
