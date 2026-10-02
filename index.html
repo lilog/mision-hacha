@@ -5,86 +5,505 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10233f">
 <title>Misión Hacha 🪓</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@500;600;700&family=Nunito+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
 <style>
 :root{
-  --ink:#10233f; --blue:#2867d6; --cream:#fff9ef; --red:#e23f55;
-  --paper:#fffdf8; --shadow:0 20px 60px rgba(16,35,63,.18);
+  --ink:#10233f;
+  --blue:#2867d6;
+  --cream:#fff8ed;
+  --paper:#fffdf8;
+  --red:#e64357;
+  --green:#2bb673;
+  --yellow:#ffd34d;
+  --shadow:0 22px 70px rgba(16,35,63,.18);
+  --hard-shadow:0 8px 0 rgba(16,35,63,.18);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-  margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  color:var(--ink); background:
-  radial-gradient(circle at 20% 0%,#dff4ff 0,transparent 34%),
-  radial-gradient(circle at 100% 20%,#ffe0e9 0,transparent 30%),
-  var(--cream);
+  margin:0;
+  font-family:"Nunito Sans",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 15% 0%,#dff3ff 0,transparent 32%),
+    radial-gradient(circle at 92% 12%,#ffe3e8 0,transparent 28%),
+    linear-gradient(180deg,#fffaf2,#f9f2e7);
+  min-height:100vh;
 }
 button{font:inherit}
-.screen{min-height:100svh;display:none;align-items:center;justify-content:center;padding:24px}
+.screen{
+  min-height:100svh;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
 .screen.active{display:flex}
 .card{
-  width:min(1100px,100%); background:rgba(255,253,248,.94); border:3px solid var(--ink);
-  border-radius:30px; box-shadow:var(--shadow); overflow:hidden;
+  width:min(1160px,100%);
+  background:rgba(255,253,248,.95);
+  border:3px solid var(--ink);
+  border-radius:32px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
 }
-.hero{position:relative;min-height:78svh;background:#101a28}
-.hero img{width:100%;height:100%;min-height:78svh;object-fit:cover;display:block;opacity:.86}
-.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,20,38,.05),rgba(8,20,38,.7))}
-.hero-copy{position:absolute;z-index:2;left:clamp(22px,5vw,70px);right:clamp(22px,5vw,70px);bottom:clamp(28px,6vw,70px);color:white}
-.kicker{font-weight:900;letter-spacing:.18em;text-transform:uppercase;font-size:.78rem}
-h1{font-size:clamp(2.8rem,8vw,7rem);line-height:.85;margin:.18em 0 .2em;letter-spacing:-.055em}
-.hero p{font-size:clamp(1rem,2vw,1.35rem);max-width:680px;margin:0 0 24px}
+
+/* ---------- PORTADA ---------- */
+.hero{
+  position:relative;
+  background:#101a28;
+  min-height:82svh;
+  overflow:hidden;
+}
+.hero img{
+  width:100%;
+  height:100%;
+  min-height:82svh;
+  object-fit:cover;
+  display:block;
+}
+.hero:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg,
+      rgba(8,20,38,.03) 0%,
+      rgba(8,20,38,.06) 44%,
+      rgba(8,20,38,.16) 68%,
+      rgba(8,20,38,.28) 100%);
+  pointer-events:none;
+}
+
+.hero-copy{
+  position:absolute;
+  z-index:3;
+  left:50%;
+  bottom:clamp(18px,2.5vw,30px);
+  right:auto;
+  width:min(500px,46%);
+  transform:translateX(-42%);
+  color:white;
+  background:rgba(10,18,32,.48);
+  backdrop-filter:blur(9px);
+  -webkit-backdrop-filter:blur(9px);
+  padding:17px 20px 16px;
+  border-radius:24px;
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 14px 36px rgba(0,0,0,.18);
+}
+
+.hero-copy-inner{
+  width:100%;
+}
+
+.kicker{
+  font-weight:900;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+  font-size:.64rem;
+  opacity:.92;
+}
+
+h1,h2,.display{
+  font-family:"Bebas Neue",Impact,sans-serif;
+  letter-spacing:.01em;
+}
+
+h1{
+  font-size:clamp(2.45rem,4.4vw,3.8rem);
+  line-height:.86;
+  margin:.08em 0 .12em;
+}
+
+.hero p{
+  font-size:clamp(.88rem,1.15vw,1rem);
+  line-height:1.35;
+  max-width:430px;
+  margin:0 0 13px;
+}
+
 .cta{
-  border:0;border-radius:999px;background:#fff;color:var(--ink);padding:15px 23px;font-weight:900;
-  cursor:pointer;box-shadow:0 8px 0 rgba(0,0,0,.16);transition:.15s transform,.15s box-shadow
+  border:2px solid var(--ink);
+  border-radius:999px;
+  background:white;
+  color:var(--ink);
+  padding:11px 18px;
+  font-weight:1000;
+  cursor:pointer;
+  box-shadow:var(--hard-shadow);
+  transition:.15s transform,.15s box-shadow;
 }
-.cta:hover{transform:translateY(-2px);box-shadow:0 10px 0 rgba(0,0,0,.16)}
-.cta:active{transform:translateY(4px);box-shadow:0 3px 0 rgba(0,0,0,.16)}
-.game-wrap{padding:clamp(18px,4vw,42px)}
-.topbar{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:18px}
-.topbar h2{font-size:clamp(1.6rem,4vw,2.7rem);margin:0}
-.score{font-weight:900;background:var(--ink);color:white;border-radius:999px;padding:9px 15px}
-.progress{height:12px;background:#e8e3d8;border:2px solid var(--ink);border-radius:999px;overflow:hidden;margin:0 0 20px}
-.progress > div{height:100%;width:0;background:linear-gradient(90deg,#e33,#f90,#fd3,#3a6,#2784d7,#7d49a8);transition:.3s}
-.instructions{margin:0 0 18px;max-width:760px}
-.images{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.pane{position:relative;border:3px solid var(--ink);border-radius:20px;overflow:hidden;background:#ddd;touch-action:manipulation}
+
+.cta:hover{
+  transform:translateY(-2px) rotate(-.5deg);
+  box-shadow:0 10px 0 rgba(16,35,63,.18)
+}
+
+.cta:active{
+  transform:translateY(4px);
+  box-shadow:0 3px 0 rgba(16,35,63,.18)
+}
+
+.easter-axe{
+  position:absolute;
+  right:18px;
+  bottom:14px;
+  z-index:4;
+  border:0;
+  background:transparent;
+  color:white;
+  font-size:22px;
+  opacity:.55;
+  cursor:pointer;
+  transform:rotate(-12deg);
+  filter:drop-shadow(0 3px 4px rgba(0,0,0,.25));
+  transition:.2s;
+}
+
+.easter-axe:hover{
+  opacity:1;
+  transform:rotate(8deg) scale(1.16)
+}
+
+/* ---------- JUEGO ---------- */
+.game-wrap{
+  position:relative;
+  padding:clamp(18px,4vw,44px);
+  background:
+    linear-gradient(rgba(255,255,255,.92),rgba(255,255,255,.92)),
+    repeating-linear-gradient(0deg,transparent 0 31px,rgba(16,35,63,.035) 32px 33px);
+}
+.tape{
+  position:absolute;
+  width:116px;height:30px;
+  background:rgba(255,211,77,.68);
+  top:12px;right:46px;
+  transform:rotate(6deg);
+  box-shadow:0 2px 5px rgba(0,0,0,.08);
+}
+.sticker{
+  position:absolute;
+  font-family:"Caveat",cursive;
+  font-size:1.3rem;
+  font-weight:700;
+  transform:rotate(-5deg);
+  color:var(--red);
+  pointer-events:none;
+}
+.sticker.s1{right:44px;top:62px}
+.sticker.s2{left:25px;bottom:14px;color:var(--blue);transform:rotate(3deg)}
+
+.topbar{
+  display:flex;
+  gap:18px;
+  align-items:flex-end;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.topbar h2{
+  font-size:clamp(2rem,5vw,3.6rem);
+  line-height:.9;
+  margin:.08em 0 0;
+}
+.hachometro{
+  min-width:210px;
+  border:2px solid var(--ink);
+  border-radius:18px;
+  background:#fff;
+  padding:10px 14px;
+  box-shadow:0 6px 0 rgba(16,35,63,.12);
+}
+.hachometro small{
+  display:block;
+  text-transform:uppercase;
+  font-weight:1000;
+  letter-spacing:.12em;
+  font-size:.68rem;
+  margin-bottom:3px;
+}
+.hachas{
+  display:flex;align-items:center;gap:6px;font-size:1.2rem;
+}
+.hachas .empty{filter:grayscale(1);opacity:.25}
+.score-line{font-weight:900;font-size:.82rem;margin-top:3px}
+.progress{
+  height:13px;
+  background:#ece5da;
+  border:2px solid var(--ink);
+  border-radius:999px;
+  overflow:hidden;
+  margin:0 0 18px;
+}
+.progress>div{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,#e33,#f90,#fd3,#3a6,#2784d7,#7d49a8);
+  transition:.35s cubic-bezier(.2,.8,.2,1);
+}
+.instructions{
+  margin:0 0 18px;
+  max-width:820px;
+  line-height:1.45;
+}
+.handnote{
+  font-family:"Caveat",cursive;
+  font-size:1.4rem;
+  font-weight:700;
+  color:var(--red);
+}
+.images{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+.pane{
+  position:relative;
+  border:3px solid var(--ink);
+  border-radius:22px;
+  overflow:hidden;
+  background:#ddd;
+  touch-action:manipulation;
+  box-shadow:0 8px 0 rgba(16,35,63,.10);
+}
+.pane:before{
+  content:attr(data-label);
+  position:absolute;
+  z-index:4;
+  top:10px;left:10px;
+  background:rgba(255,255,255,.93);
+  border:2px solid var(--ink);
+  border-radius:999px;
+  padding:5px 10px;
+  font-weight:1000;
+  font-size:.8rem;
+}
 .pane img{display:block;width:100%;height:auto}
 .hotspot{
-  position:absolute;border:0;background:transparent;border-radius:50%;cursor:pointer;padding:0;transform:translate(-50%,-50%);
-  min-width:34px;min-height:34px;
+  position:absolute;
+  border:0;
+  background:transparent;
+  border-radius:50%;
+  cursor:pointer;
+  padding:0;
+  transform:translate(-50%,-50%);
+  min-width:34px;
+  min-height:34px;
 }
-.hotspot.found{border:4px solid #2bb673;background:rgba(43,182,115,.12);box-shadow:0 0 0 4px rgba(255,255,255,.9)}
-.hotspot.found:after{content:"✓";position:absolute;right:-9px;top:-16px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#2bb673;color:white;font-weight:1000}
+.hotspot.found{
+  border:4px solid var(--green);
+  background:rgba(43,182,115,.13);
+  box-shadow:0 0 0 4px rgba(255,255,255,.92);
+}
+.hotspot.found:after{
+  content:"✓";
+  position:absolute;
+  right:-9px;top:-16px;
+  width:28px;height:28px;
+  border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--green);color:white;
+  font-weight:1000;
+}
 .hotspot.hint{animation:pulse 1s ease-in-out 3}
-@keyframes pulse{50%{box-shadow:0 0 0 16px rgba(255,205,70,.45);background:rgba(255,205,70,.22)}}
-.controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:16px}
-.ghost{background:transparent;border:2px solid var(--ink);color:var(--ink);box-shadow:none}
+@keyframes pulse{
+  50%{
+    box-shadow:0 0 0 17px rgba(255,205,70,.45);
+    background:rgba(255,205,70,.22)
+  }
+}
+.controls{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+.ghost{
+  background:#fff8dd;
+  border:2px solid var(--ink);
+  box-shadow:0 6px 0 rgba(16,35,63,.12);
+}
+.mobile-switch{
+  display:none;
+  gap:8px;
+  margin-bottom:12px;
+}
+.mobile-switch button{
+  flex:1;
+  border:2px solid var(--ink);
+  background:white;
+  border-radius:999px;
+  padding:9px;
+  font-weight:1000;
+}
+.mobile-switch button.active{
+  background:var(--ink);
+  color:white;
+}
+.footer-note{margin-top:16px;font-size:.85rem;opacity:.68}
 .toast{
-  position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;
-  background:var(--ink);color:white;padding:11px 16px;border-radius:999px;font-weight:800;transition:.2s;z-index:20
+  position:fixed;
+  left:50%;
+  bottom:24px;
+  transform:translate(-50%,20px);
+  opacity:0;
+  pointer-events:none;
+  background:var(--ink);
+  color:white;
+  padding:11px 17px;
+  border-radius:999px;
+  font-weight:1000;
+  transition:.2s;
+  z-index:100;
+  box-shadow:0 8px 20px rgba(0,0,0,.18);
 }
 .toast.show{opacity:1;transform:translate(-50%,0)}
-.final{padding:clamp(30px,6vw,70px);text-align:center}
-.big-axe{font-size:clamp(4rem,12vw,8rem);display:inline-block;animation:wobble 1.2s ease-in-out infinite alternate}
+.toast.hit{
+  background:var(--red);
+  font-family:"Caveat",cursive;
+  font-size:1.5rem;
+}
+
+/* ---------- FINAL + RASPADITA ---------- */
+.final{
+  position:relative;
+  padding:clamp(32px,6vw,72px);
+  text-align:center;
+  background:
+    radial-gradient(circle at 15% 10%,rgba(39,132,215,.08),transparent 28%),
+    radial-gradient(circle at 85% 15%,rgba(230,67,87,.10),transparent 28%),
+    #fffdf8;
+}
+.final h2{
+  font-size:clamp(3rem,8vw,6.4rem);
+  line-height:.86;
+  margin:.12em 0 .16em;
+}
+.big-axe{
+  font-size:clamp(4rem,11vw,7.5rem);
+  display:inline-block;
+  animation:wobble 1.2s ease-in-out infinite alternate;
+}
 @keyframes wobble{to{transform:rotate(8deg) translateY(-4px)}}
-.final h2{font-size:clamp(2.5rem,7vw,5.5rem);line-height:.92;margin:.15em 0}
+.final-copy{font-size:1.05rem;margin-bottom:24px}
+.scratch-wrap{
+  width:min(690px,100%);
+  margin:26px auto 0;
+  position:relative;
+  border:3px solid var(--ink);
+  border-radius:26px;
+  overflow:hidden;
+  box-shadow:0 12px 0 rgba(16,35,63,.12);
+  background:#fff;
+}
 .reward{
-  margin:28px auto 0;max-width:700px;border:3px solid var(--ink);border-radius:24px;padding:28px;
-  background:linear-gradient(135deg,#eef7ff,#fff,#ffe9ef);position:relative;overflow:hidden
+  min-height:270px;
+  display:grid;
+  place-items:center;
+  padding:34px 26px;
+  background:
+    radial-gradient(circle at 20% 15%,rgba(255,211,77,.22),transparent 25%),
+    radial-gradient(circle at 85% 20%,rgba(230,67,87,.14),transparent 28%),
+    linear-gradient(135deg,#eef7ff,#fff,#ffe9ef);
 }
 .reward .rainbow{font-size:2rem}
-.reward strong{display:block;font-size:clamp(1.5rem,4vw,2.6rem);margin:8px 0}
-.small{font-size:.9rem;opacity:.72}
-.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
-.confetti i{position:absolute;top:-20px;width:10px;height:18px;background:var(--c);animation:fall var(--d) linear forwards;transform:rotate(var(--r))}
+.reward strong{
+  display:block;
+  font-family:"Bebas Neue",sans-serif;
+  letter-spacing:.02em;
+  font-size:clamp(2rem,5vw,3.2rem);
+  margin:7px 0;
+}
+.reward p{max-width:520px;margin:0 auto;line-height:1.45}
+.scratch{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  touch-action:none;
+  cursor:crosshair;
+}
+.scratch-label{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  pointer-events:none;
+  z-index:3;
+  color:white;
+  text-shadow:0 3px 12px rgba(0,0,0,.22);
+  font-family:"Caveat",cursive;
+  font-size:clamp(1.7rem,5vw,2.8rem);
+  font-weight:700;
+}
+.scratch-label.hidden{display:none}
+.small{font-size:.88rem;opacity:.7}
+.confetti{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:200;
+}
+.confetti i{
+  position:absolute;
+  top:-20px;
+  width:10px;height:18px;
+  background:var(--c);
+  animation:fall var(--d) linear forwards;
+  transform:rotate(var(--r))
+}
 @keyframes fall{to{transform:translate(var(--x),110vh) rotate(720deg)}}
-.footer-note{margin-top:18px;font-size:.86rem;opacity:.7}
+
+
+@media(min-width:801px) and (max-width:1100px){
+  .hero-copy{
+    width:min(450px,48%);
+    transform:translateX(-38%);
+  }
+  h1{font-size:clamp(2.3rem,4.8vw,3.4rem)}
+}
+
 @media(max-width:800px){
   .screen{padding:10px}
   .card{border-radius:22px}
-  .images{grid-template-columns:1fr}
+  .hero{
+    min-height:86svh;
+  }
+  .hero img{
+    min-height:86svh;
+    object-position:center;
+  }
+  .hero-copy{
+    left:14px;
+    right:14px;
+    bottom:14px;
+    width:auto;
+    max-width:none;
+    transform:none;
+    padding:16px 16px 14px;
+    border-radius:20px;
+  }
+  .easter-axe{
+    right:14px;
+    bottom:10px;
+  }
+  h1{font-size:clamp(2.9rem,15vw,4.9rem)}
+  .hero p{font-size:.96rem}
   .game-wrap{padding:17px}
-  .pane{border-radius:14px}
+  .mobile-switch{display:flex}
+  .images{display:block}
+  .pane{display:none;border-radius:16px}
+  .pane.mobile-active{display:block}
+  .sticker,.tape{display:none}
+  .hachometro{width:100%}
+  .final{padding:28px 18px 40px}
 }
 </style>
 </head>
@@ -93,29 +512,52 @@ h1{font-size:clamp(2.8rem,8vw,7rem);line-height:.85;margin:.18em 0 .2em;letter-s
 <section id="start" class="screen active">
   <main class="card hero">
     <img src="assets/portada.jpg" alt="Collage deportivo de Lu">
+
     <div class="hero-copy">
-      <div class="kicker">Expediente clasificado · Nivel: Hacha</div>
-      <h1>MISIÓN<br>HACHA 🪓</h1>
-      <p>Hay cinco diferencias escondidas. Dos de ellas tienen bastante que ver con tu apodo.</p>
-      <button class="cta" id="startBtn">Aceptar misión</button>
+      <div class="hero-copy-inner">
+        <div class="kicker">Expediente clasificado · Nivel: Hacha</div>
+        <h1>MISIÓN<br>HACHA</h1>
+        <p>Hay cinco diferencias escondidas. Dos tienen bastante que ver con tu apodo.</p>
+        <button class="cta" id="startBtn">Empezar misión 🪓</button>
+      </div>
+      <button class="easter-axe" id="easterAxe" aria-label="Hacha secreta">🪓</button>
     </div>
   </main>
 </section>
 
 <section id="game" class="screen">
   <main class="card game-wrap">
+    <div class="tape"></div>
+    <div class="sticker s1">ojo con las hachas 👀</div>
+    <div class="sticker s2">nivel de dificultad: sospechoso</div>
+
     <div class="topbar">
       <div>
         <div class="kicker">Prueba 01</div>
-        <h2>Encontrá las 5 diferencias</h2>
+        <h2>ENCONTRÁ LAS 5 DIFERENCIAS</h2>
       </div>
-      <div class="score"><span id="score">0</span>/5 encontradas</div>
+      <div class="hachometro">
+        <small>Hachómetro</small>
+        <div class="hachas" id="axesMeter">
+          <span class="empty">🪓</span><span class="empty">🪓</span><span class="empty">🪓</span><span class="empty">🪓</span><span class="empty">🪓</span>
+        </div>
+        <div class="score-line"><span id="score">0</span>/5 encontradas</div>
+      </div>
     </div>
+
     <div class="progress"><div id="bar"></div></div>
-    <p class="instructions">Podés tocar la diferencia en cualquiera de las dos imágenes. Hay <b>dos hachas distintas</b> escondidas entre las fotos. 👀</p>
+    <p class="instructions">
+      Tocá una diferencia en cualquiera de las dos imágenes.
+      <span class="handnote">Hay dos hachas distintas escondidas.</span>
+    </p>
+
+    <div class="mobile-switch" id="mobileSwitch">
+      <button class="active" data-target="a">Imagen A</button>
+      <button data-target="b">Imagen B</button>
+    </div>
 
     <div class="images">
-      <div class="pane" data-side="a">
+      <div class="pane mobile-active" data-side="a" data-label="IMAGEN A">
         <img src="assets/diferencias-a.jpg" alt="Imagen A del juego">
         <button class="hotspot" data-id="axe1" style="left:19.4%;top:72.8%;width:10%;height:16%" aria-label="Diferencia"></button>
         <button class="hotspot" data-id="axe2" style="left:75.9%;top:35%;width:10%;height:18%" aria-label="Diferencia"></button>
@@ -124,7 +566,7 @@ h1{font-size:clamp(2.8rem,8vw,7rem);line-height:.85;margin:.18em 0 .2em;letter-s
         <button class="hotspot" data-id="glasses" style="left:82.5%;top:69.5%;width:12%;height:18%" aria-label="Diferencia"></button>
       </div>
 
-      <div class="pane" data-side="b">
+      <div class="pane" data-side="b" data-label="IMAGEN B">
         <img src="assets/diferencias-b.jpg" alt="Imagen B del juego">
         <button class="hotspot" data-id="axe1" style="left:19.4%;top:72.8%;width:10%;height:16%" aria-label="Diferencia"></button>
         <button class="hotspot" data-id="axe2" style="left:75.9%;top:35%;width:10%;height:18%" aria-label="Diferencia"></button>
@@ -135,10 +577,10 @@ h1{font-size:clamp(2.8rem,8vw,7rem);line-height:.85;margin:.18em 0 .2em;letter-s
     </div>
 
     <div class="controls">
-      <button class="cta ghost" id="hintBtn">Dame una pista</button>
+      <button class="cta ghost" id="hintBtn">Necesito ayudita 👀</button>
       <span id="hintsText" class="small">2 pistas disponibles</span>
     </div>
-    <div class="footer-note">Tip: en celu, girar el teléfono puede hacerlo un poquito más fácil.</div>
+    <div class="footer-note">En celu podés alternar entre Imagen A e Imagen B para comparar mejor.</div>
   </main>
 </section>
 
@@ -146,15 +588,23 @@ h1{font-size:clamp(2.8rem,8vw,7rem);line-height:.85;margin:.18em 0 .2em;letter-s
   <main class="card final">
     <div class="big-axe">🪓</div>
     <div class="kicker">Misión completada</div>
-    <h2>Bien ahí,<br>Hacha.</h2>
-    <p>Encontraste todo. Así que corresponde liberar la recompensa.</p>
-    <div class="reward">
-      <div class="rainbow">🏳️‍🌈 💙</div>
-      <strong>Tarjeta regalo de Decathlon</strong>
-      <p>Para fútbol, bici, aventuras y cualquier otra cosa en la que te metas después.</p>
-      <p class="small">El código/PIN del regalo va aparte para que no quede publicado en GitHub.</p>
+    <h2>BIEN AHÍ,<br>HACHA.</h2>
+    <p class="final-copy">5/5. Oficialmente digna del título.</p>
+
+    <div class="scratch-wrap">
+      <div class="reward">
+        <div>
+          <div class="rainbow">🏳️‍🌈 💙</div>
+          <strong>TARJETA REGALO DECATHLON</strong>
+          <p>Para fútbol, bici y la próxima actividad random que decidas empezar.</p>
+          <p class="small" style="margin-top:10px">El código/PIN va aparte para que no quede publicado en GitHub.</p>
+        </div>
+      </div>
+      <canvas class="scratch" id="scratchCanvas"></canvas>
+      <div class="scratch-label" id="scratchLabel">Raspá para descubrir tu premio ✨</div>
     </div>
-    <button class="cta" style="margin-top:24px" id="replay">Jugar de nuevo</button>
+
+    <button class="cta" style="margin-top:26px" id="replay">Jugar de nuevo</button>
   </main>
 </section>
 
@@ -169,6 +619,7 @@ const scoreEl = document.getElementById('score');
 const bar = document.getElementById('bar');
 const toast = document.getElementById('toast');
 const hintsText = document.getElementById('hintsText');
+const axesMeter = document.getElementById('axesMeter');
 let found = new Set();
 let hints = 2;
 
@@ -176,71 +627,227 @@ function show(section){
   [start,game,final].forEach(x=>x.classList.remove('active'));
   section.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
+  if(section===final) setTimeout(initScratch,120);
 }
+
 document.getElementById('startBtn').onclick=()=>show(game);
 
-function toastMsg(msg){
-  toast.textContent=msg; toast.classList.add('show');
-  setTimeout(()=>toast.classList.remove('show'),900);
+document.getElementById('easterAxe').onclick=()=>{
+  toastMsg('Veo que venís entrenada 🪓',true);
+};
+
+function toastMsg(msg, hit=false){
+  toast.textContent=msg;
+  toast.classList.toggle('hit',hit);
+  toast.classList.add('show');
+  setTimeout(()=>{
+    toast.classList.remove('show');
+    toast.classList.remove('hit');
+  },1000);
 }
+
 function update(){
   scoreEl.textContent=found.size;
   bar.style.width=(found.size/5*100)+'%';
+
+  [...axesMeter.children].forEach((el,i)=>{
+    el.classList.toggle('empty',i>=found.size);
+  });
+
   document.querySelectorAll('.hotspot').forEach(h=>{
     h.classList.toggle('found',found.has(h.dataset.id));
   });
+
   if(found.size===5){
-    setTimeout(()=>{show(final); confetti();},500);
+    setTimeout(()=>{
+      show(final);
+      confetti();
+    },550);
   }
 }
+
 document.querySelectorAll('.hotspot').forEach(h=>{
   h.addEventListener('click',(e)=>{
     e.stopPropagation();
     if(found.has(h.dataset.id)) return;
     found.add(h.dataset.id);
-    toastMsg(found.size===5 ? '¡Las cinco! 🪓' : '¡Encontrada! ✓');
+    toastMsg(found.size===5 ? '¡HACHAZO FINAL! 💥' : '¡HACHAZO! 💥',true);
     update();
   });
 });
+
 document.querySelectorAll('.pane').forEach(p=>{
   p.addEventListener('click',e=>{
     if(e.target.classList.contains('hotspot')) return;
-    toastMsg('Nope 👀');
+    toastMsg('Esa no era 😏');
   });
 });
 
 document.getElementById('hintBtn').onclick=()=>{
-  if(hints<=0){toastMsg('No quedan pistas 😈');return;}
+  if(hints<=0){
+    toastMsg('Ahora te toca laburar 😈');
+    return;
+  }
   const remaining=['axe1','axe2','heart','crown','glasses'].filter(x=>!found.has(x));
   if(!remaining.length)return;
   const id=remaining[Math.floor(Math.random()*remaining.length)];
   document.querySelectorAll(`.hotspot[data-id="${id}"]`).forEach(x=>{
-    x.classList.add('hint'); setTimeout(()=>x.classList.remove('hint'),3100);
+    x.classList.add('hint');
+    setTimeout(()=>x.classList.remove('hint'),3100);
   });
   hints--;
-  hintsText.textContent=hints===1?'1 pista disponible':hints+' pistas disponibles';
+  hintsText.textContent=hints===1?'1 pista disponible':'Ahora te toca laburar 😈';
 };
 
 document.getElementById('replay').onclick=()=>{
-  found=new Set(); hints=2; hintsText.textContent='2 pistas disponibles'; update(); show(game);
+  found=new Set();
+  hints=2;
+  hintsText.textContent='2 pistas disponibles';
+  update();
+  show(game);
 };
 
+/* Mobile A/B */
+document.querySelectorAll('#mobileSwitch button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('#mobileSwitch button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const target=btn.dataset.target;
+    document.querySelectorAll('.pane').forEach(p=>{
+      p.classList.toggle('mobile-active',p.dataset.side===target);
+    });
+  });
+});
+
+/* Confetti */
 function confetti(){
   const box=document.getElementById('confetti');
   box.innerHTML='';
   const colors=['#e33','#f90','#fd3','#3a6','#2784d7','#7d49a8'];
-  for(let i=0;i<90;i++){
+  for(let i=0;i<100;i++){
     const c=document.createElement('i');
     c.style.left=Math.random()*100+'vw';
     c.style.setProperty('--c',colors[i%colors.length]);
     c.style.setProperty('--d',(2.2+Math.random()*2)+'s');
     c.style.setProperty('--r',(Math.random()*360)+'deg');
-    c.style.setProperty('--x',((Math.random()-.5)*220)+'px');
+    c.style.setProperty('--x',((Math.random()-.5)*240)+'px');
     c.style.animationDelay=(Math.random()*.6)+'s';
     box.appendChild(c);
   }
-  setTimeout(()=>box.innerHTML='',4800);
+  setTimeout(()=>box.innerHTML='',5000);
 }
+
+/* Scratch card */
+let scratchReady=false, scratching=false, revealed=false;
+
+function initScratch(){
+  const canvas=document.getElementById('scratchCanvas');
+  const wrap=canvas.parentElement;
+  const label=document.getElementById('scratchLabel');
+  const rect=wrap.getBoundingClientRect();
+  const dpr=Math.max(1,window.devicePixelRatio||1);
+
+  canvas.width=Math.floor(rect.width*dpr);
+  canvas.height=Math.floor(rect.height*dpr);
+  canvas.style.width=rect.width+'px';
+  canvas.style.height=rect.height+'px';
+
+  const ctx=canvas.getContext('2d');
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+
+  const g=ctx.createLinearGradient(0,0,rect.width,rect.height);
+  g.addColorStop(0,'#17345d');
+  g.addColorStop(.5,'#2867d6');
+  g.addColorStop(1,'#e64357');
+  ctx.fillStyle=g;
+  ctx.fillRect(0,0,rect.width,rect.height);
+
+  // tiny decorative dots
+  ctx.globalAlpha=.28;
+  ctx.fillStyle='#fff';
+  for(let y=16;y<rect.height;y+=22){
+    for(let x=16;x<rect.width;x+=22){
+      ctx.beginPath();
+      ctx.arc(x,y,1.4,0,Math.PI*2);
+      ctx.fill();
+    }
+  }
+  ctx.globalAlpha=1;
+  ctx.globalCompositeOperation='destination-out';
+  scratchReady=true;
+  scratching=false;
+  revealed=false;
+  label.classList.remove('hidden');
+}
+
+function scratchAt(x,y){
+  if(!scratchReady || revealed)return;
+  const canvas=document.getElementById('scratchCanvas');
+  const ctx=canvas.getContext('2d');
+  ctx.beginPath();
+  ctx.arc(x,y,30,0,Math.PI*2);
+  ctx.fill();
+  maybeReveal();
+}
+
+function pointFromEvent(e){
+  const canvas=document.getElementById('scratchCanvas');
+  const rect=canvas.getBoundingClientRect();
+  const p=e.touches?e.touches[0]:e;
+  return {x:p.clientX-rect.left,y:p.clientY-rect.top};
+}
+
+const scratchCanvas=document.getElementById('scratchCanvas');
+scratchCanvas.addEventListener('pointerdown',e=>{
+  scratching=true;
+  const p=pointFromEvent(e);
+  scratchAt(p.x,p.y);
+});
+scratchCanvas.addEventListener('pointermove',e=>{
+  if(!scratching)return;
+  const p=pointFromEvent(e);
+  scratchAt(p.x,p.y);
+});
+window.addEventListener('pointerup',()=>scratching=false);
+
+scratchCanvas.addEventListener('touchstart',e=>{
+  e.preventDefault();
+  scratching=true;
+  const p=pointFromEvent(e);
+  scratchAt(p.x,p.y);
+},{passive:false});
+scratchCanvas.addEventListener('touchmove',e=>{
+  e.preventDefault();
+  if(!scratching)return;
+  const p=pointFromEvent(e);
+  scratchAt(p.x,p.y);
+},{passive:false});
+window.addEventListener('touchend',()=>scratching=false);
+
+function maybeReveal(){
+  const canvas=document.getElementById('scratchCanvas');
+  const ctx=canvas.getContext('2d');
+  const w=canvas.width,h=canvas.height;
+  const data=ctx.getImageData(0,0,w,h).data;
+  let clear=0,total=0;
+  // sample pixels for performance
+  for(let i=3;i<data.length;i+=4*36){
+    total++;
+    if(data[i] < 40) clear++;
+  }
+  if(total && clear/total > .42){
+    revealed=true;
+    canvas.style.transition='opacity .5s';
+    canvas.style.opacity='0';
+    document.getElementById('scratchLabel').classList.add('hidden');
+    setTimeout(()=>canvas.style.pointerEvents='none',500);
+    confetti();
+  }
+}
+
+window.addEventListener('resize',()=>{
+  if(final.classList.contains('active') && !revealed) initScratch();
+});
 </script>
 </body>
 </html>
